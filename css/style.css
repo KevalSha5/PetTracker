@@ -1,0 +1,157 @@
+body
+{
+	background: #343434;
+	margin: 0;
+	padding: 0;
+	transition: 2s background;
+}
+
+.refreshNotify {
+	background: #fe9191;
+}
+
+.box
+{	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	border: 5px solid #343434;
+	background: #5e5e5e;
+	height: 200px;
+	margin: 1% auto;
+	display: block;
+	color: #b7b7b7;
+	width: 98%;
+	font-size: 60px;
+	line-height: 175px;
+	text-align: center;
+}
+
+.subBox
+{	
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	border: 5px solid #343434;
+	background-color: #5e5e5e;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	height: 125px;
+	width: auto;
+	margin: 0;
+}
+
+.staticBox
+{	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	border: 5px solid #343434;
+	background: #5e5e5e;
+	height: 200px;
+	margin: 1% auto;
+	display: block;
+	color: #b7b7b7;
+	width: 98%;
+	font-size: 60px;
+	line-height: 200px;
+	text-align: center;
+}
+
+
+.box:hover, .box:active
+{	
+	background-color: #777;
+	color: #232323;
+	text-shadow: 2px 2px 3px #555;
+	border: 10px solid #222;
+}
+
+
+.tunit
+{
+	color: #fe9191;
+	display: inline;
+	font-family: "Consolas";
+	font-weight: 0
+}
+
+.time-out
+{
+	bottom: 50px;
+	color: #b7b7b7;
+	font-size: 25px;
+	line-height: 11px;
+	position: relative;
+	text-align: center
+}
+
+.in
+{
+	color: #83ff72;
+	font-family: Georgia;
+	font-size: 95px;
+	text-shadow: 0 2px 5px rgba(0,0,0,.6)
+}
+
+.out
+{
+	color: #ff4343;
+	font-family: Georgia;
+	font-size: 95px;
+	text-shadow: 0 2px 5px rgba(0,0,0,.6)
+}
+
+#refreshSuccessBox {
+	width: 90%;
+	height: 50px;
+	position: fixed;
+	background-color: #83ff72;
+	margin-left: 5%;
+	margin-top: calc(1% + 32px);
+	blur: 20px;
+	-webkit-filter: blur(30px);
+	-moz-filter: blur(30px);
+	-ms-filter: blur(30px);
+	-o-filter: blur(30px);
+	filter: blur(30px);;
+	top: 0px;
+	left: 0px;
+	background-color: #83ff72;
+	z-index: -1;
+}
+
+.half
+{	
+	width: 50%;
+	height: 125px;
+	float: right;
+	display: inline-table;
+}
+
+.third
+{	
+	width: 15.8%;
+	float: left;
+	height: 125px;
+	display: inline-table;
+}
+
+.refreshBox
+{	
+	background-image: url(../refresh_125.png);
+}
+
+.logBox
+{
+	background-image: url(../log_125.png);
+}
+
+.editNameBox
+{
+	background-image: url(../edit_125.png);
+}
+
+.editListBox
+{
+	background-image: url(../add_125.png);
+}

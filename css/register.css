@@ -1,0 +1,27 @@
+.textfield {
+	border: 1px solid #cea23b;	
+	background: #1E1E1E;
+	color: #cea23b;
+	margin: 10px;
+	padding: 10px;
+}
+
+.textfield:focus {
+	border: 1px solid #cea23b;	
+	background-color: #1E1E1E;
+}
+
+.submit {
+	border: 1px solid #cea23b;
+	font-size: 15px;
+	color: #cea23b;
+	background-color: #1E1E1E;
+	margin: 10px;
+	padding: 10px;
+}
+
+.submit:hover {
+	border-color: #cea23b;
+	text-shadow:0px 4px 3px rgba(0,0,0,0.6),
+				0px 8px 13px rgba(0,0,0,0.3);
+}

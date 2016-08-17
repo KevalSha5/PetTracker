@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="js/jQuery.js"></script>
+		
+		<script>
+		
+		$(document).ready(function(){		
+			getDataFromServer(true);		
+		});
+		
+		function getDataFromServer(needToReplaceAll) {
+			$.ajax({
+				url: "/CatTracker/toggle",
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
+					listAll(JSON.parse(JSON.stringify(data)));
+				}
+			});
+		}
+		
+		function listAll(jsonArray) {
+			var s = "";
+			for (var i = 0; i < jsonArray.length; i++) {
+				s += textifyToList(jsonArray[i].sourceName);
+			}
+			document.getElementById("currentEntityListing").innerHTML=s;
+			
+			$(".entity").bind("click", removeEntity);
+		}
+		
+		function removeEntity() {
+			 var entityName = $(this).attr("id");
+			 $.ajax({
+				url: "/CatTracker/toggle",
+				type: "POST",
+				data: "entityToRemove=" + entityName,
+				success: function(data) {
+					listAll(JSON.parse(JSON.stringify(data)));
+				}
+			});
+			 getDataFromServer();
+		}
+		
+		function addEntity() {
+			var entityName = document.getElementById("entityName").value;
+			$.ajax({
+				 url: "/CatTracker/toggle", 
+				 dataType: "html/text",
+				 type: 'POST',
+				 data: "newEntity=" + entityName,
+				 success: function(data){
+				 },
+				error: function(data) {
+					alert("There was an error.");
+					console.log(data)
+				}
+			});
+		}
+		
+		function textifyToList(entityName) {
+			return '<div class="entity" id="' + entityName + '">' + entityName + '</div>';
+		}
+		</script>		
+	</head>
+
+	<body>	
+	
+		<div class="staticBox" style="height: auto; line-height: 75px; font-size: 50px; text-align: center;">
+			<form onSubmit="addEntity()">
+				<input type="text" id="entityName">
+				<input type="submit" value="Add">
+			</form>
+			<span style ="font-size: 21px;">To remove, click on the name.</span>
+			<hr width="25%">
+			
+			<div id="currentEntityListing">				
+			</div>
+			
+			<hr width="25%">
+			<a href="/CatTracker/"><img src="go_back.png"></a>
+			
+		</div>
+		
+	</body>	
+</html>

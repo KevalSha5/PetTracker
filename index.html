@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="icon" type="image/png" href="favicon.png">
+		<script src="js/jQuery.js"></script>
+		
+		<script>		
+		$(document).ready(function(){		
+			registrationCheck();
+			getDataFromServer();
+			$('#refreshSuccessBox').hide();
+			setInterval("getDataFromServer()", 60000);
+			
+			$(".logBox").click(function() {
+				window.location = "/CatTracker/data/log.html";
+			});
+			
+			$(".editListBox").click(function() {
+				window.location = "/CatTracker/entityadder.html";
+			});
+			
+			$(".editNameBox").click(function() {
+				window.location = "/CatTracker/register.html";
+			});			
+			
+			window.addEventListener("focus", getDataFromServer);
+			
+		});
+		
+		function getDataFromServer() {
+			$.ajax({
+				url: "/CatTracker/toggle",
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
+					replaceAll(JSON.parse(JSON.stringify(data)));
+					$('#refreshSuccessBox').stop(true, true);				
+					$('#refreshSuccessBox').fadeIn(1000).delay(1000).fadeOut(1000);
+				},
+				error: function(data) {
+					alert("Error");
+				}
+			});
+		}
+		
+		function ajaxSubmit() {	
+		var sourceId = $(this).attr("id");
+		var classValue = $("#" + sourceId).children("span").attr("class");
+	
+		$.ajax({
+			url: "/CatTracker/toggle",
+			type: "POST",
+			dataType: "json",
+			data: {"sourceName":sourceId, "currentStatus":classValue},
+			success: function(data){
+				replaceAll(JSON.parse(JSON.stringify(data)));
+				$('#refreshSuccessBox').stop(true, true);				
+				$('#refreshSuccessBox').fadeIn(1000).delay(1000).fadeOut(1000);
+				//setTimeout(function() {
+				//		$("body").toggleClass("refreshNotify");
+				//	}, 1000);
+			},
+			error: function(data) {
+				alert("There was an error. Attempting to refresh the page.");				
+				location.reload(false);
+			}
+		  });
+		}
+			
+		
+		function replaceAll(jsonArray) {
+			var s = "";
+			for (var i = 0; i < jsonArray.length; i++) {
+				s += boxify(jsonArray[i].sourceName,
+					jsonArray[i].newStatus,
+					textifyTimeOut(jsonArray[i].timeCheckedOut));
+			}
+			document.getElementById("parentOfEntityBox").innerHTML=s;
+			
+			$(".name").bind("click", ajaxSubmit);
+			//setTimeout(function() { dialog.dialog('close'); }, time);
+			
+		}
+		
+		function boxify(entity, status, timeOut) {
+			var s = '<div id="' + entity + '" class = "box name">' 
+				+ capitaliseFirstLetter(entity) + ' <span class ="' + status + '">' + capitaliseFirstLetter(status) + '</span>'
+				+ '<div class="time-out">' + timeOut + '</div>'
+				+ '</div>';
+			return s;
+		}
+		
+		function textifyTimeOut(milisecondsOut) {
+			if (milisecondsOut == 0) return "";
+			
+			var minutesOut = Math.round((milisecondsOut/60000)%60);
+			var hoursOut = Math.round((milisecondsOut/3600000));
+
+			var timeOutString = "Out for " + ((hoursOut > 0) ? + "<div class=\"tunit\">" + hoursOut + "</div>" + ((hoursOut == 1) ? " hour and " : " hours and ") : "")
+				+ "<div class=\"tunit\">" + minutesOut + "</div>" + ((minutesOut == 1) ? " minute" : " minutes");
+				
+			return timeOutString;
+		}
+		
+		function capitaliseFirstLetter(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		}
+		
+		function registrationCheck() {
+			var name = getCookie("name");
+			if (name == "") window.location.replace("/CatTracker/register.html");
+		}
+		
+		function getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0; i<ca.length; i++) {
+			  var c = ca[i].trim();
+			  if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+			  }
+			return "";
+		}
+		</script>	
+		
+	</head>
+
+	<body>
+		<div class="box" style="background-color: transparent; height: 125px; border: 0px;">		
+			<div class="box subBox third editNameBox"></div>			
+			<div class="box subBox third editListBox"></div>			
+			<div class="box subBox third logBox"></div>			
+			<div class="box subBox half refreshBox" onclick="getDataFromServer()"></div>			
+		</div>
+
+		<div id = "parentOfEntityBox"></div>
+		
+		<div id="refreshSuccessBox">Successfully Refreshed</div>
+		
+	</body>	
+</html>
